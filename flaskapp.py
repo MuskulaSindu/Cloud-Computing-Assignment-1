@@ -3,6 +3,7 @@ import sqlite3
 from flask import Flask, request, g, render_template, send_file
 
 DATABASE = '/var/www/html/flaskapp/example.db'
+#DATABASE = 'M:\Graduation\Semister1\CloudComputing\AWS\ApplicationDevelopment\example.db'
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -33,7 +34,7 @@ def commit():
 
 @app.route("/")
 def hello():
-        execute_query("DROP TABLE IF EXISTS users")
+    execute_query("DROP TABLE IF EXISTS users")
     execute_query("CREATE TABLE users (Username text,Password text,firstname text, lastname text, email text, count integer)")
     return render_template('index.html')
 
@@ -43,6 +44,7 @@ def login():
     if request.method == 'POST' and str(request.form['username']) !="" and str(request.form['password']) != "":
         username = str(request.form['username'])
         password = str(request.form['password'])
+
         result = execute_query("""SELECT firstname,lastname,email,count  FROM users WHERE Username  = (?) AND Password = (?)""", (username, password ))
         if result:
             for row in result:
@@ -85,7 +87,7 @@ def registration():
 
 @app.route("/download")
 def download():
-    path = "Limerick.txt"
+    path = "Sonnet.txt"
     return send_file(path, as_attachment=True)
 
 def getNumberOfWords(file):
